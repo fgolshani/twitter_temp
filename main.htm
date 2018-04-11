@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html><head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Twitter</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="assets/bootstrap.css">
+  <script src="assets/jquery-3.2.1.min.js"></script>
+  <script src="assets/popper.min.js"></script>
+  <script src="assets/bootstrap.js"></script>
+  <script src="assets/scripts.js "></script>
+  <link rel="stylesheet" href="assets/font-awesome.css">
+  <link rel="stylesheet" href="assets/bootstrap-switch.css">
+  <link href="assets/css.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css" type="text/css">
+</head>
+
+<body id="personal" class="container" style="direction:rtl; text-align:right; font-family:Yekan; background-image:url('assets/background.png')">
+
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <img src="assets/logo.jpg" class="m-1" style="height : 30px; width : auto">
+    <a class="navbar-brand" href="#">توییتر فارسی</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <!-- Navbar Content Start  -->
+      <ul class="navbar-nav mr">
+        <li class="nav-item active" style="border:1px ; border-radius : 5px; background-color : #e76767">
+          <a class="nav-link" href="#">صفحه اصلی<span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+      <div class="mr-auto">
+        <a> <button class="btn btn-outline-success my-2 my-sm-0" type="submit">خروج</button> </a>
+      </div>
+      <!-- Navbar Content End  -->
+    </div>
+  </nav>
+
+  <!-- Main Start -->
+
+       <div class="container">
+         <form class="row" method="post" action="/add_tweet/">
+
+           <div class="col-12" style="background-color : #e76767">
+             <div class="col-12 d-flex justify-content-center m-2">
+               <textarea name="message" rows="3" cols="60" style="border-radius :10px" class="col-10 mt-2" placeholder="چه چیزی در ذهن شماست ؟ "></textarea>
+             </div>
+             <div class="col-12 d-flex justify-content-start">
+               <button class="btn btn-primary mb-2" style="margin-right : 100px;" type="submit" >توییت !</button>
+             </div>
+           </div>
+         </form>
+       </div>
+
+       <div class="card-post">
+         <div class="row">
+           <div class="col-xs-3 col-sm-2">
+             <a title="Profile">
+               <img src="assets/user.jpg" alt="Picture Of User" class="rounded-circle img-user m-1">
+             </a>
+           </div>
+           <div class="col-xs-9 col-sm-10 info-user">
+             <h3><a title="Profile">فربد</a></h3>
+             <p><i>2 hr</i></p>
+           </div>
+         </div>
+         <div class="row">
+           <div class="col-sm-8 col-sm-offset-2 data-post">
+             <p id="postDescription" class="m-2"> سلام ! به آموزش Django خوش آمدید </p>
+             <div class="reaction">
+               <a type="button" class="btn openDeleteDialog" data-id="Tweet ID Here !">
+                 <img draggable="false" class="emoji " alt="❤" src="assets/delete.ico">
+               </a>
+
+               <a type="button" class="btn openEditDialog" data-id="Tweet ID Here !">
+                 <img draggable="false" class="emoji" alt="😃" src="assets/edit.ico">
+               </a>
+             </div>
+
+
+              <div class="comments">
+                <div class="more-comments" style="text-align:center; font-size:20px">کامنت ها</div>
+                <ul style="font-size:14px">
+
+                  <li ><b class="ml-2">سعید</b> سلام فربد !</li>
+                  <li ><b class="ml-2">مهدی</b> سلام  !</li>
+                  <li ><b class="ml-2">احسان</b>سلام به همگی</li>
+                  <li ><b class="ml-2">فرزاد</b>سلام از طرف ایوو تیم !</li>
+
+                </ul>
+
+                <form method="post" action="/add_comment/">
+                  <input type="hidden" name="id" value="Tweet ID Here !">
+                  <input name="comment" class="form-control commentDescription" placeholder="کامنت خود را وارد کنید" type="text">
+                  <button type="submit" class="btn btn-primary m-2">ثبت</button>
+                </form>
+              </div>
+            </div>
+          </div>
+
+       </div>
+
+
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header d-flex justify-content-center">
+            <h5 class="modal-title" id="exampleModalLabel" >آیا اطمینان به حذف توییت دارید ؟</h5>
+          </div>
+
+          <div class="modal-footer d-flex justify-content-center">
+            <button type="button" class="btn btn-secondary m-2" data-dismiss="modal">خروج</button>
+
+          <form id="deleteForm" data-csrf = "csrf_token Here !" action="/delete_tweet/" method="post">
+
+            <button id="deletePostDescriptionButton" type="button" class="btn btn-primary m-2">تایید</button>
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header d-flex justify-content-center">
+            <h5 class="modal-title" id="exampleModalLabel" >تغییر کامنت</h5>
+          </div>
+
+          <div class="modal-body row">
+            <div class="col-12 d-flex justify-content-center m-2">
+              <form action="/delete_tweet/" method="post">
+              <textarea id="editedPostDescription" name="message" rows="6" cols="80" style="border-radius :10px" class="col-10 mt-2" placeholder="چه چیزی در ذهن شماست ؟ "></textarea>
+            </form>
+            </div>
+         </div>
+          <div class="modal-footer d-flex justify-content-center">
+            <button type="button" class="btn btn-secondary m-2" data-dismiss="modal">خروج</button>
+            <button id="editPostDescriptionButton" type="button" class="btn btn-primary m-2">تایید</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+   <!-- Main End -->
+
+   <footer class="blog-footer d-flex justify-content-center">
+     <a href="https://t.me/EvoTeam"> <img src="assets/evoTeam.png" class="mr-2 ml-2" style="height : 24px; width : auto" > </a>
+     <p style="direction : ltr; text-align : center">Made By</p>
+     <div class="d-flex justify-content-center">
+   </div>
+   </footer>
+  </body>
+
+  </html>
